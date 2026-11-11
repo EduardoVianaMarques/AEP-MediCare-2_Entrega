@@ -1,0 +1,10 @@
+{
+  "name": "medicare-frontend-tests",
+  "version": "0.4.0",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/frontend/*.test.cjs",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {"playwright": "1.62.1"}
+}
