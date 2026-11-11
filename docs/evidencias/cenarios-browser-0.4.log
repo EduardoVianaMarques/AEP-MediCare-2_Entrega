@@ -1,0 +1,30 @@
+Listing tests:
+  [desktop] › identidade.spec.cjs:2:1 › página inicial e navegação até cadastro mantêm identidade
+  [desktop] › identidade.spec.cjs:10:1 › login mostra senha apenas quando solicitado
+  [desktop] › identidade.spec.cjs:16:1 › redução de movimento mantém navegação e conteúdo
+  [desktop] › identidade.spec.cjs:21:1 › cadastro com senhas diferentes conserva os campos e mostra erro
+  [desktop] › painel.spec.cjs:38:1 › painel resume dados e não gera rolagem horizontal
+  [desktop] › painel.spec.cjs:44:1 › busca sem acentos, paciente e reposição
+  [desktop] › painel.spec.cjs:51:1 › cadastra, edita e exclui com confirmação
+  [desktop] › painel.spec.cjs:63:1 › registra uso e consulta histórico
+  [desktop] › painel.spec.cjs:68:1 › entrada e erro de saldo insuficiente
+  [desktop] › painel.spec.cjs:77:1 › exporta lista filtrada e persiste preferência de tema
+  [desktop] › painel.spec.cjs:83:1 › não interpreta HTML vindo do cadastro
+  [desktop] › painel.spec.cjs:88:1 › mostra erro de carregamento e permite tentar novamente
+  [desktop] › painel.spec.cjs:96:1 › erro de validação mantém formulário e dados
+  [desktop] › painel.spec.cjs:107:1 › formulário fecha por teclado e devolve o foco
+  [mobile] › identidade.spec.cjs:2:1 › página inicial e navegação até cadastro mantêm identidade
+  [mobile] › identidade.spec.cjs:10:1 › login mostra senha apenas quando solicitado
+  [mobile] › identidade.spec.cjs:16:1 › redução de movimento mantém navegação e conteúdo
+  [mobile] › identidade.spec.cjs:21:1 › cadastro com senhas diferentes conserva os campos e mostra erro
+  [mobile] › painel.spec.cjs:38:1 › painel resume dados e não gera rolagem horizontal
+  [mobile] › painel.spec.cjs:44:1 › busca sem acentos, paciente e reposição
+  [mobile] › painel.spec.cjs:51:1 › cadastra, edita e exclui com confirmação
+  [mobile] › painel.spec.cjs:63:1 › registra uso e consulta histórico
+  [mobile] › painel.spec.cjs:68:1 › entrada e erro de saldo insuficiente
+  [mobile] › painel.spec.cjs:77:1 › exporta lista filtrada e persiste preferência de tema
+  [mobile] › painel.spec.cjs:83:1 › não interpreta HTML vindo do cadastro
+  [mobile] › painel.spec.cjs:88:1 › mostra erro de carregamento e permite tentar novamente
+  [mobile] › painel.spec.cjs:96:1 › erro de validação mantém formulário e dados
+  [mobile] › painel.spec.cjs:107:1 › formulário fecha por teclado e devolve o foco
+Total: 28 tests in 2 files

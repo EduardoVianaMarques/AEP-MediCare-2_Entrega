@@ -1,0 +1,36 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> medicare-frontend-tests@0.4.0 test
+> node --test tests/frontend/*.test.cjs
+
+✔ busca ignora acentos e caixa (0.992273ms)
+✔ busca também paciente (0.136261ms)
+✔ busca observações (0.139206ms)
+✔ combina filtros e não confunde estoque ausente com zero (0.102411ms)
+✔ ordena horários e não modifica entrada (7.292883ms)
+✔ ordena estoque com não acompanhado por último (0.788352ms)
+✔ resumo conta pacientes únicos e alertas (0.192424ms)
+✔ estoque no mínimo dispara alerta (0.128339ms)
+✔ estoque zero dispara alerta (0.278751ms)
+✔ lista vazia tem resumo zero (0.235487ms)
+✔ CSV escapa aspas, separador e quebras de linha (0.360311ms)
+✔ CSV neutraliza fórmulas e preserva UTF-8 (0.116842ms)
+✔ CSV não exporta undefined nem null (0.152334ms)
+✔ sem resultados não produz itens (0.092787ms)
+✔ navegação reduzida é imediata e não anima (2.203108ms)
+✔ navegação nativa não sofre atraso artificial (0.639092ms)
+✔ fallback faz saída curta e evita clique duplicado (0.931504ms)
+✔ voltar pelo histórico restaura a interação (0.618522ms)
+✔ navegação interrompida não deixa a página invisível (0.668957ms)
+✔ alternar tema persiste preferência mesmo sem View Transition API (0.634015ms)
+✔ fechar diálogo respeita redução de movimento (1.135685ms)
+✔ clique com Ctrl preserva a abertura em outra aba (0.790615ms)
+✔ âncora na própria página mantém comportamento padrão (0.730266ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 101.677781

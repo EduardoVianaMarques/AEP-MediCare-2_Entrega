@@ -1,0 +1,36 @@
+✔ busca ignora acentos e caixa (1.618277ms)
+✔ busca também paciente (0.183651ms)
+✔ busca observações (0.115099ms)
+✔ combina filtros e não confunde estoque ausente com zero (0.098866ms)
+✔ ordena horários e não modifica entrada (7.191597ms)
+✔ ordena estoque com não acompanhado por último (1.204507ms)
+✔ resumo conta pacientes únicos e alertas (0.565485ms)
+✔ estoque no mínimo dispara alerta (0.148229ms)
+✔ estoque zero dispara alerta (0.109011ms)
+✔ lista vazia tem resumo zero (0.127488ms)
+✔ CSV escapa aspas, separador e quebras de linha (3.73541ms)
+✔ CSV neutraliza fórmulas e preserva UTF-8 (0.124053ms)
+✔ CSV não exporta undefined nem null (0.162991ms)
+✔ sem resultados não produz itens (0.219544ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 120.874249
+ℹ start of coverage report
+ℹ --------------------------------------------------------------------
+ℹ file                | line % | branch % | funcs % | uncovered lines
+ℹ --------------------------------------------------------------------
+ℹ src                 |        |          |         | 
+ℹ  main               |        |          |         | 
+ℹ   resources         |        |          |         | 
+ℹ    static           |        |          |         | 
+ℹ     js              |        |          |         | 
+ℹ      painel-core.js |  96.55 |    71.43 |  100.00 | 28
+ℹ --------------------------------------------------------------------
+ℹ all files           |  96.55 |    71.43 |  100.00 | 
+ℹ --------------------------------------------------------------------
+ℹ end of coverage report
