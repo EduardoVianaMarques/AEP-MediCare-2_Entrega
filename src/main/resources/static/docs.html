@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Documentação - MediCare </title>
+
+    <link
+            rel="stylesheet"
+            href="/css/style.css"
+    >
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="/" class="logo">
+
+        <span>+</span>
+
+        MediCare
+
+    </a>
+
+    <nav>
+
+        <a href="/">
+            Início
+        </a>
+
+        <a href="/docs">
+            API
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="dashboard">
+
+    <section class="card">
+
+        <span class="badge">
+            DOCUMENTAÇÃO
+        </span>
+
+        <h1>
+            Documentação da API
+        </h1>
+
+        <p>
+            Esta seção apresenta os recursos disponíveis
+            no MediCare.
+        </p>
+
+
+        <hr>
+
+
+        <h2>
+            Autenticação
+        </h2>
+
+        <p>
+            O sistema utiliza sessão HTTP para identificar
+            o usuário autenticado.
+        </p>
+
+
+        <h3>
+            Criar usuário
+        </h3>
+
+        <pre>
+POST /api/auth/cadastro
+        </pre>
+
+
+        <h3>
+            Login
+        </h3>
+
+        <pre>
+POST /api/auth/login
+        </pre>
+
+
+        <h3>
+            Usuário atual
+        </h3>
+
+        <pre>
+GET /api/auth/usuario
+        </pre>
+
+
+        <h3>
+            Logout
+        </h3>
+
+        <pre>
+POST /api/auth/logout
+        </pre>
+
+
+        <hr>
+
+
+        <h2>
+            Medicamentos
+        </h2>
+
+
+        <h3>
+            Listar medicamentos
+        </h3>
+
+        <pre>
+GET /api/medicamentos
+        </pre>
+
+
+        <h3>
+            Cadastrar medicamento
+        </h3>
+
+        <pre>
+POST /api/medicamentos
+        </pre>
+
+
+        <h3>
+            Atualizar medicamento
+        </h3>
+
+        <pre>
+PUT /api/medicamentos/{id}
+        </pre>
+
+
+        <h3>
+            Excluir medicamento
+        </h3>
+
+        <pre>
+DELETE /api/medicamentos/{id}
+        </pre>
+
+
+        <div class="hero-buttons">
+
+            <a
+                    href="/docs"
+                    class="btn"
+            >
+                Abrir Swagger
+            </a>
+
+            <a
+                    href="/api-docs"
+                    class="btn-secondary"
+            >
+                Ver OpenAPI
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+
+</html>
