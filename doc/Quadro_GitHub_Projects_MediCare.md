@@ -145,12 +145,3 @@ Revise o README, a documentação técnica, o quadro de tarefas e a identificaç
 - [ ] O README contém o link do quadro e o quadro mostra responsáveis e evidências.
 - [ ] A ficha contém os nomes e RAs dos integrantes.
 
-**Evidência** · Adicionar links do README, do GitHub Project e da ficha da equipe.
-
-## Link para o README
-
-Quando o Project estiver criado, substitua `URL_DO_PROJECT` pelo endereço real do quadro e adicione a linha abaixo ao README do repositório.
-
-```markdown
-[Quadro de tarefas da segunda entrega](URL_DO_PROJECT)
-```
