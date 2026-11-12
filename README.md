@@ -4,6 +4,16 @@ O MediCare é uma prova de conceito acadêmica para organizar a rotina de medica
 
 O projeto se relaciona ao **ODS 3 — Saúde e Bem-Estar** ao facilitar a consulta dessas informações no dia a dia. O MediCare é uma ferramenta de organização. Decisões sobre medicamentos, doses e mudanças de tratamento cabem ao profissional de saúde.
 
+## Documentação do projeto
+
+Acesse o [índice da documentação](doc/README.md) ou abra diretamente:
+
+- [Arquitetura e modelo de dados](doc/ARQUITETURA.md)
+- [Fluxos de uso e regras de negócio](doc/FLUXOS.md)
+- [API HTTP](doc/API.md)
+- [Estratégia de testes e resultados](doc/TESTES.md)
+- [Catálogo dos casos automatizados](doc/CASOS_DE_TESTE.md)
+
 ## Como o MediCare funciona
 
 1. **Crie uma conta e entre no painel.** Cada conta acessa os medicamentos que cadastrou.
