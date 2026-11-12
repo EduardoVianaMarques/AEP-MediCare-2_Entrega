@@ -1,269 +1,128 @@
-# MediCare — Segunda entrega AEP
+# MediCare — Segunda entrega (0.4.0)
 
-**Versão 0.4.0 · Engenharia de Software · 6S**
+PoC acadêmica em Java 17, Spring Boot e MongoDB para organizar medicamentos por usuário.
+**ODS 3 — Saúde e Bem-Estar:** centraliza informações para pessoas que utilizam medicamentos,
+familiares e cuidadores. Não prescreve, calcula doses ou substitui orientação profissional.
 
-Prova de Conceito (PoC) em Java 17, Spring Boot e MongoDB para organizar medicamentos por usuário, consultar registros de uso e acompanhar o estoque manualmente.
+## Identidade visual 0.4
 
-## Problema e ODS
+- Nova marca SVG, também usada como favicon, e símbolo decorativo próprio.
+- Página inicial editorial; login e cadastro com nova composição; painel com a mesma identidade.
+- Paleta verde-tinta, papel e lima; ícones vetoriais e contraste tipográfico.
+- Animações de entrada, interações nos cartões, diálogos e transições entre páginas.
+- Respeito a redução de movimento, navegação por teclado e controles para mostrar senha.
+- **23 testes Node aprovados**; **28 cenários de navegador configurados**.
 
-Pessoas que utilizam medicamentos, familiares e cuidadores precisam manter informações de uso e disponibilidade organizadas. O MediCare centraliza esses dados e contribui para o **ODS 3 — Saúde e Bem-Estar**.
+Consulte [DESIGN_0.4.md](docs/DESIGN_0.4.md) para detalhes e limites de validação.
 
-O sistema não prescreve medicamentos, não calcula doses e não substitui orientação profissional.
+## Funcionalidades preservadas
 
-## Equipe e organização do trabalho
+- Painel redesenhado com navegação lateral, indicadores, cartões e página inicial renovada.
+- Interface responsiva, modo escuro persistente e formulários em diálogos nativos.
+- Busca sem acentos por nome, paciente e observações; filtros combinados e ordenação.
+- Controle opcional de estoque, entradas/saídas manuais e alerta visual de reposição.
+- Exportação CSV da lista filtrada, com proteção contra interpretação de fórmulas.
+- Estados de carregamento, lista vazia, erros, confirmação de exclusão e feedback de validação.
+- Testes unitários de frontend, testes de navegador desktop/mobile e testes de estoque no backend.
 
-O trabalho é organizado por Kanban, com as etapas **A fazer**, **Em andamento** e **Concluído**. A distribuição abaixo é proposta para organização da equipe e deve refletir a participação efetiva de cada integrante.
+**Estoque é manual:** registrar uso não reduz unidades automaticamente. O sistema não calcula doses.
 
-| Integrante | Responsabilidades propostas |
+## Evolução da primeira entrega
+
+| Base recebida | Segunda entrega |
 | --- | --- |
-| Eduardo | Autenticação, CRUD, isolamento por usuário, histórico, estoque e modelagem MongoDB |
-| Leonardo | Interface, busca, filtros, CSV, responsividade, acessibilidade e testes do frontend |
-| Pedro | Testes Java, integração, cobertura, evidências, documentação e publicação da versão final |
+| Cadastro, login e CRUD por usuário | Fluxos preservados |
+| Senhas em texto puro | PBKDF2-HMAC-SHA256; migração após login válido de conta antiga |
+| Documentos simples | Histórico com lista de subdocumentos, UUID e data UTC |
+| Sem registro de uso | Botões Registrar uso e Histórico na interface |
+| Horário apenas obrigatório | Validação HH:mm |
+| Índice de email apenas anotado | Script reproduzível de índices |
+| Testes e JaCoCo | Novos testes, CI e limite de 70% sem exclusões de classes |
+| README | Documentação técnica, quadro de tarefas e roteiro de vídeo |
 
-- Quadro de tarefas disponível no projeto: [docs/QUADRO_TAREFAS.md](docs/QUADRO_TAREFAS.md).
-- Quadro no GitHub Projects: **link a preencher após a criação**.
-- RAs dos integrantes: **preencher em [docs/ENTREGA.md](docs/ENTREGA.md)**.
+## Executar
 
-## Tecnologias e arquitetura
-
-| Camada | Tecnologias / organização |
-| --- | --- |
-| Backend | Java 17, Spring Boot 3.5.16, Spring Web e Bean Validation |
-| Persistência | MongoDB e Spring Data MongoDB |
-| Frontend | HTML, CSS e JavaScript |
-| Documentação da API | Springdoc OpenAPI / Swagger UI |
-| Testes Java | JUnit, Mockito e MockMvc |
-| Testes do frontend | Node.js e Playwright |
-| Cobertura | JaCoCo, com limite mínimo de 70% das linhas do backend |
-| Automação | Maven Wrapper e GitHub Actions |
-
-Fluxo da aplicação: interface → controllers REST → services → repositories/MongoTemplate → MongoDB.
-Models representam os documentos; DTOs delimitam entrada e saída; o mapper converte os dados de medicamentos.
-
-## Funcionalidades
-
-- Cadastro, login, logout e sessão por usuário.
-- Proteção de senhas com PBKDF2-HMAC-SHA256 e migração de senhas legadas após login válido.
-- Cadastro, consulta, edição e exclusão de medicamentos com isolamento por proprietário.
-- Registro e consulta dos últimos 100 usos de cada medicamento.
-- Estoque opcional, reposição, retirada manual e alerta visual quando o saldo atinge o mínimo.
-- Busca sem acentos por nome, paciente e observações, filtros combinados e ordenação.
-- Exportação CSV dos resultados filtrados, com escape e proteção contra interpretação de fórmulas.
-- Interface responsiva, tema persistente, diálogos, animações e transições entre páginas.
-- Feedback de carregamento, validação, erros, lista vazia e confirmação de exclusão.
-- Marca SVG, navegação por teclado e respeito à preferência de redução de movimento.
-
-**Estoque manual:** registrar uso não reduz o saldo automaticamente. Datas de uso são armazenadas em UTC e exibidas no fuso do navegador.
-
-## Modelagem NoSQL
-
-| Coleção | Conteúdo |
-| --- | --- |
-| `usuarios` | Nome, email, hash da senha e data de cadastro |
-| `medicamentos` | Dados do medicamento, `usuarioId`, histórico de usos e estoque opcional |
-
-O campo `medicamentos.usuarioId` referencia `usuarios._id`. O histórico é uma lista de subdocumentos, e o estoque é um documento aninhado. O proprietário é obtido da sessão pelo backend.
-
-Índices de instalação: email único em `usuarios` e `usuarioId` em `medicamentos`. Consulte [docs/TECNICA.md](docs/TECNICA.md) para exemplos, API, migração e decisões de modelagem.
-
-## Executar a aplicação
-
-Requisitos: **JDK 17**, MongoDB acessível e internet para baixar Maven e dependências. Docker com Compose é uma opção para executar o banco. Para testes do frontend, utilize **Node.js 22 ou superior**.
-
-Execute os comandos na pasta que contém `pom.xml` e `mvnw.cmd`.
-
-### 1. Iniciar o MongoDB com Docker
+Requisitos: JDK 17, Docker com Compose e acesso à internet para baixar Maven/dependências.
 
 ```bash
 docker compose up -d
-```
-
-Após o banco estar saudável, aplique os índices, inclusive em volumes existentes:
-
-```bash
+# Após o MongoDB estar saudável, aplicar índices (inclusive em volumes existentes):
 docker compose exec -T mongo mongosh --quiet /docker-entrypoint-initdb.d/mongo-init.js
 ```
 
-Se já utiliza MongoDB local, a URI padrão é `mongodb://localhost:27017/medicare`; não é necessário iniciar outro banco na mesma porta. Nesse caso, aplique o script `scripts/mongo-init.js` na base utilizada.
+Linux/macOS: `bash mvnw spring-boot:run`.
+Windows PowerShell: `.\mvnw.cmd spring-boot:run`.
 
-Para outro servidor, configure a variável de ambiente `SPRING_DATA_MONGODB_URI` antes de iniciar a aplicação. Preserve os dados existentes e aplique os índices na base correta.
+Abra http://localhost:8080, cadastre uma conta, entre e cadastre um medicamento.
+Use **Registrar uso** para registrar o momento atual e **Histórico** para consultar os últimos 100 usos.
+Datas são armazenadas em UTC e exibidas no fuso do navegador. Cada clique confirmado representa um novo registro.
 
-### 2. Iniciar o backend
-
-Windows PowerShell:
-
-```powershell
-.\mvnw.cmd spring-boot:run
-```
-
-Linux/macOS:
-
-```bash
-bash mvnw spring-boot:run
-```
-
-O `JAVA_HOME` deve apontar para a pasta do JDK 17, sem `bin` no final. Verifique a instalação com `java -version` e `javac -version`.
-
-### 3. Acessar
-
-- Aplicação: [http://localhost:8080](http://localhost:8080).
-- Swagger UI: [http://localhost:8080/docs](http://localhost:8080/docs).
-- Contrato OpenAPI: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs).
-
-Cadastre uma conta, entre e adicione um medicamento. Utilize **Registrar uso**, **Histórico** e os controles de estoque para demonstrar os fluxos.
+Swagger: http://localhost:8080/docs. Contrato: http://localhost:8080/v3/api-docs.
+Para banco externo, configure `SPRING_DATA_MONGODB_URI`; aplique os índices de `scripts/mongo-init.js` nessa base.
+O MongoDB local fica exposto somente em 127.0.0.1 e o volume preserva os dados.
 
 ## Testes e cobertura
-
-### Resultados confirmados
-
-A execução local no Windows, em **10/11/2026**, com Java **17.0.12** e MongoDB disponível, terminou com:
-
-| Verificação | Resultado |
-| --- | --- |
-| Build Maven | `BUILD SUCCESS` |
-| Testes Java | **89 aprovados** |
-| Falhas / erros / ignorados | **0 / 0 / 0** |
-| Integração com MongoDB | **2 testes executados e aprovados**, incluídos nos 89 |
-| Verificação JaCoCo | Limite mínimo de **70% das linhas** atendido |
-| Relatório JaCoCo apresentado | **328 de 337 linhas cobertas — 97,33%** |
-| Instruções / ramificações no relatório apresentado | **95% / 87%** |
-| Testes unitários do frontend | **23 aprovados** |
-| Testes Playwright | **28 cenários configurados; execução ainda não comprovada** |
-
-Os resultados Java são baseados no log da execução local apresentado pela equipe; os percentuais são do relatório JaCoCo apresentado. Uma nova execução pode atualizar os percentuais. A medição JaCoCo abrange o backend Java de produção, sem exclusões de classes, e não mede HTML, CSS ou JavaScript.
-
-### Executar testes Java sem habilitar a integração
-
-Windows PowerShell, em sessão sem `MONGODB_INTEGRATION=true`:
-
-```powershell
-.\mvnw.cmd clean verify
-```
-
-Linux/macOS:
 
 ```bash
 bash mvnw clean verify
 ```
 
-Sem a variável de integração habilitada, os dois testes de MongoDB são ignorados.
+Windows: `.\mvnw.cmd clean verify`.
+O comando executa JUnit/Mockito/MockMvc, gera `target/site/jacoco/index.html` e falha abaixo de **70% das linhas**
+do backend Java de produção, sem exclusões de classes. HTML/CSS/JavaScript não são medidos pelo JaCoCo.
+O GitHub Actions executa o mesmo comando e disponibiliza os relatórios como artefato.
+Os testes unitários utilizam mocks; o teste de integração com MongoDB real é habilitado no CI.
+Para executá-lo localmente, consulte `docs/TESTES.md`.
 
-### Executar os 89 testes, incluindo MongoDB real
+**Estado da validação desta alteração:** o Maven foi invocado, mas o ambiente de edição não resolveu
+`repo.maven.apache.org` (`UnknownHostException`). Portanto, compilação, testes e percentual de cobertura
+precisam ser confirmados em ambiente com acesso ao Maven Central. Nenhum percentual antigo é atribuído a esta versão.
 
-Mantenha MongoDB acessível em `localhost:27017`.
+## Testes do frontend
 
-Windows PowerShell:
-
-```powershell
-$env:MONGODB_INTEGRATION = "true"
-.\mvnw.cmd clean verify
-```
-
-Linux/macOS:
-
-```bash
-MONGODB_INTEGRATION=true bash mvnw clean verify
-```
-
-Os testes de integração usam uma base temporária `medicare_test_<UUID>` e a removem ao finalizar. Verificam persistência, relacionamento, histórico, limite de registros, isolamento e operações de estoque, incluindo concorrência.
-
-### Consultar e preservar evidências
-
-| Caminho | Conteúdo |
-| --- | --- |
-| `target/site/jacoco/index.html` | Relatório visual de cobertura |
-| `target/site/jacoco/jacoco.xml` | Cobertura em XML |
-| `target/surefire-reports/` | Resultados dos testes Java |
-| `target/medicare-0.4.0.jar` | Aplicação empacotada |
-
-No PowerShell, abra o relatório:
-
-```powershell
-Start-Process .\target\site\jacoco\index.html
-```
-
-O comando `clean` remove a pasta `target`; preserve as evidências antes de limpar quando necessário. O workflow [.github/workflows/ci.yml](.github/workflows/ci.yml) está configurado para executar os testes com MongoDB e publicar os relatórios. O sucesso local não comprova, por si só, uma execução no GitHub Actions.
-
-### Testes do frontend
+Node.js 22 ou superior:
 
 ```bash
 npm test
-```
-
-Para executar os testes de navegador:
-
-```bash
+# Para testes de interface (requer internet na instalação):
 npm install
 npx playwright install chromium
 npm run test:e2e
 ```
 
-Os testes unitários Node verificam regras de dados e navegação. O Playwright utiliza API simulada para conferir a interface em desktop e mobile; a integração real com MongoDB é verificada pela suíte Java. A execução dos cenários de navegador e a inspeção visual completa ainda precisam ser registradas.
+`npm test` executa regras puras sem instalar dependências. Os testes Playwright usam API simulada
+para validar a interface; a integração real com MongoDB é testada pela suíte Java.
+O workflow tem jobs independentes para backend e frontend.
 
-## Evolução em relação à primeira entrega
+Validação desta versão: **23 testes unitários do frontend aprovados**, com regras de dados e navegação.
+Os **28 cenários de navegador** (14 cenários × desktop/mobile) foram reconhecidos pelo runner,
+mas a execução e a inspeção visual continuam pendentes: Chromium ausente no ambiente.
+A validação Java/MongoDB e a cobertura JaCoCo permanecem pendentes devido ao download Maven bloqueado.
+Os números de cobertura anteriores não comprovam a cobertura completa desta versão.
 
-| Base descrita na documentação | Evolução implementada |
-| --- | --- |
-| Cadastro, login e CRUD por usuário | Fluxos mantidos e ampliados |
-| Senhas em texto puro | Hash PBKDF2 e migração após login válido |
-| Documentos simples | Histórico com subdocumentos e estoque aninhado |
-| Sem registro de uso | Registro de uso e consulta do histórico pela interface |
-| Horário apenas obrigatório | Validação do formato e intervalo `HH:mm` |
-| Índices apenas anotados | Script reproduzível para criação dos índices |
-| Interface inicial | Novo painel, marca, tema, busca, filtros, CSV e transições |
-| Testes e cobertura | 89 testes Java aprovados com integração e limite de cobertura atendido |
-| Documentação inicial | Arquitetura, testes, quadro de tarefas, checklist e roteiro de vídeo |
+## Documentação da entrega
 
-A evolução deve ser vinculada às referências reais da primeira e da segunda entrega no GitHub.
-
-## Documentação
-
-- [Arquitetura, banco, API e migração](docs/TECNICA.md)
-- [Plano de testes](docs/TESTES.md)
+- [Arquitetura, dados, API e migração](docs/TECNICA.md)
+- [Plano de testes e evidências](docs/TESTES.md)
 - [Quadro de tarefas](docs/QUADRO_TAREFAS.md)
-- [Identidade visual](docs/DESIGN_0.4.md)
 - [Roteiro do vídeo de 3 a 5 minutos](docs/ROTEIRO_VIDEO.md)
-- [Identificação e checklist](docs/ENTREGA.md)
-- [Histórico de alterações](CHANGELOG.md)
+- [Checklist e identificação dos integrantes](docs/ENTREGA.md)
+- [Alterações](CHANGELOG.md)
 
-Os registros antigos em `docs/TESTES.md`, `docs/ENTREGA.md` e `docs/QUADRO_TAREFAS.md` ainda devem ser sincronizados com os resultados confirmados neste README.
+## Versionamento
 
-## Publicação e versionamento
-
-A versão da aplicação é **0.4.0**. O pacote recebido não contém o histórico Git original. Atualize o repositório existente da equipe, preservando o histórico e revisando os arquivos antes de publicar.
-
-Após a revisão, com os testes aprovados e sem uma tag `v0.4.0` existente:
+Este ZIP não contém o histórico Git original. A versão Maven foi identificada como `0.4.0`.
+Copie os arquivos para o repositório existente, revise o diff e publique um commit real.
+Não recrie nem invente commits da primeira entrega. Após `verify` passar, marque a entrega:
 
 ```bash
-git add README.md
-git commit -m "docs: atualiza README com validacao da segunda entrega"
-git tag -a v0.4.0 -m "Segunda entrega AEP — MediCare"
+git add .
+git update-index --chmod=+x mvnw
+git commit -m "feat: evolui MediCare para segunda entrega da AEP"
+git tag -a v0.4.0 -m "Segunda entrega AEP"
 git push origin HEAD
 git push origin v0.4.0
 ```
 
-Esse exemplo publica a atualização do README; outras alterações do projeto devem ser revisadas e commitadas antes de identificar a versão final. Informe referências reais para os dois marcos da AEP.
-
-## Pendências para finalizar a entrega
-
-- [x] Compilação e empacotamento concluídos.
-- [x] 89 testes Java aprovados, incluindo os dois testes com MongoDB.
-- [x] Cobertura mínima de 70% do backend comprovada.
-- [x] 23 testes unitários do frontend aprovados.
-- [x] Código com coleções relacionadas e objetos complexos implementado.
-- [ ] Executar e registrar os cenários de navegador e a validação visual dos fluxos.
-- [ ] Atualizar os demais documentos e estados do quadro com as evidências reais.
-- [ ] Confirmar a divisão de tarefas e preencher os RAs.
-- [ ] Informar o link do repositório e do GitHub Projects, quando criado.
-- [ ] Publicar o código e informar os commits/tags reais de cada entrega.
-- [ ] Gravar e disponibilizar o vídeo de 3 a 5 minutos.
-
-## Links da entrega
-
-| Item | Referência |
-| --- | --- |
-| Repositório GitHub | A preencher |
-| Quadro GitHub Projects | A preencher após criação |
-| Primeira entrega — commit/tag/release | A preencher com referência real |
-| Segunda entrega — commit/tag/release | A preencher após publicação |
-| Vídeo YouTube — 3 a 5 minutos | A preencher |
+O envio ao GitHub, o link do repositório, a gravação e publicação do vídeo e os dados dos integrantes
+continuam sob responsabilidade da equipe. Consulte o checklist antes de entregar.

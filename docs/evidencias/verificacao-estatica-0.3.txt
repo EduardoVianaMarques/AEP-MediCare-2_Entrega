@@ -1,6 +1,0 @@
-Sintaxe JS validada com node --check: app, core, auth, testes, servidor e config.
-HTML: IDs únicos e referências locais existentes.
-XML, YAML e JSON analisados sem erros.
-14 testes frontend aprovados.
-20 cenários de navegador reconhecidos; execução bloqueada por Chromium ausente.
-Java não compilado neste ambiente; download Maven bloqueado.

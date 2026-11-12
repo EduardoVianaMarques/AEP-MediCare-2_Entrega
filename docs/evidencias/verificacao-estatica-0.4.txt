@@ -1,8 +1,0 @@
-23 testes Node aprovados.
-28 cenários Playwright reconhecidos; execução visual pendente.
-Sintaxe JavaScript validada com node --check.
-IDs HTML únicos e referências locais verificadas.
-SVG e pom.xml analisados como XML.
-Servidor estático de testes: HTTP 200 para /, /login, /cadastro, /medicamentos, marca SVG, símbolo SVG, identity.css, panel-art.css e experience.js.
-O teste HTTP não valida o backend Spring Boot.
-Chromium indisponível; não foi feita inspeção visual renderizada.

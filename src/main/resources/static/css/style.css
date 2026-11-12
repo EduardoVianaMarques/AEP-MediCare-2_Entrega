@@ -1,16 +1,16 @@
 :root {
 
-    --primary: #087f8c;
+    --primary: #086b73;
     --primary-dark: #066a75;
     --primary-light: #e7f6f7;
 
     --secondary: #35a58d;
 
-    --background: #E1D8C4;
-    --surface: #E1D8C4;
+    --background: #f1f7f8;
+    --surface: #fff;
 
     --text: #19343d;
-    --text-light: #6d858c;
+    --text-light: #4d6974;
 
     --border: #dce8eb;
 

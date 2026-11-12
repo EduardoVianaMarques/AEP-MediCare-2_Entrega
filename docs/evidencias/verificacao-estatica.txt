@@ -1,5 +1,0 @@
-JavaScript: node --check aprovado.
-XML: pom.xml analisado com ElementTree.
-YAML: application.yml, compose.yaml e workflow analisados com PyYAML.
-Maven: bloqueado no download; ver tentativa-maven.log.
-Teste de navegador e MongoDB: não executado neste ambiente.
