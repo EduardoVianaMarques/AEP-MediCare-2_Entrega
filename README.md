@@ -14,6 +14,12 @@ Acesse o [índice da documentação](doc/README.md) ou abra diretamente:
 - [Estratégia de testes e resultados](doc/TESTES.md)
 - [Catálogo dos casos automatizados](doc/CASOS_DE_TESTE.md)
 
+## Quadro de tarefas da segunda entrega
+
+Acompanhe os 11 cartões no [quadro AEP_MediCare no GitHub Projects](https://github.com/users/EduardoVianaMarques/projects/6/views/2).
+
+Consulte a [tabela de tarefas do MediCare](doc/Quadro_GitHub_Projects_MediCare.md) para ver os 11 cartões da AEP, seus responsáveis e critérios de aceite.
+
 ## Como o MediCare funciona
 
 1. **Crie uma conta e entre no painel.** Cada conta acessa os medicamentos que cadastrou.
