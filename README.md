@@ -1,128 +1,93 @@
-# MediCare — Segunda entrega (0.4.0)
+# MediCare — Segunda entrega da AEP (0.4.0)
 
-PoC acadêmica em Java 17, Spring Boot e MongoDB para organizar medicamentos por usuário.
-**ODS 3 — Saúde e Bem-Estar:** centraliza informações para pessoas que utilizam medicamentos,
-familiares e cuidadores. Não prescreve, calcula doses ou substitui orientação profissional.
+O MediCare é uma prova de conceito acadêmica para organizar a rotina de medicamentos. Ele reúne em uma conta os horários, as informações da prescrição, os registros de uso e o estoque. Pode ser usado por quem toma medicamentos, por familiares e por cuidadores que acompanham mais de uma pessoa.
 
-## Identidade visual 0.4
+O projeto se relaciona ao **ODS 3 — Saúde e Bem-Estar** ao facilitar a consulta dessas informações no dia a dia. O MediCare é uma ferramenta de organização. Decisões sobre medicamentos, doses e mudanças de tratamento cabem ao profissional de saúde.
 
-- Nova marca SVG, também usada como favicon, e símbolo decorativo próprio.
-- Página inicial editorial; login e cadastro com nova composição; painel com a mesma identidade.
-- Paleta verde-tinta, papel e lima; ícones vetoriais e contraste tipográfico.
-- Animações de entrada, interações nos cartões, diálogos e transições entre páginas.
-- Respeito a redução de movimento, navegação por teclado e controles para mostrar senha.
-- **23 testes Node aprovados**; **28 cenários de navegador configurados**.
+## Como o MediCare funciona
 
-Consulte [DESIGN_0.4.md](docs/DESIGN_0.4.md) para detalhes e limites de validação.
+1. **Crie uma conta e entre no painel.** Cada conta acessa os medicamentos que cadastrou.
+2. **Cadastre um medicamento.** Informe o nome, a dosagem conforme a prescrição, o horário no formato `HH:mm`, a frequência e o paciente. Use o campo de observações para guardar informações adicionais.
+3. **Registre o uso.** Ao confirmar **Registrar uso**, o sistema salva o momento atual. Em **Histórico**, é possível consultar os últimos 100 registros do medicamento. As datas são armazenadas em UTC e exibidas no fuso do navegador.
+4. **Acompanhe o estoque, se necessário.** Informe o saldo inicial e o limite mínimo de reposição. O painel exibe um alerta quando o saldo chega ao mínimo ou fica abaixo dele. As entradas e saídas são lançadas manualmente. **Registrar uso** grava somente o histórico.
 
-## Funcionalidades preservadas
+O painel também permite editar ou excluir medicamentos, buscar por nome, paciente ou observações, combinar filtros e exportar o resultado da consulta em CSV. A busca funciona mesmo quando a palavra é digitada sem acento.
 
-- Painel redesenhado com navegação lateral, indicadores, cartões e página inicial renovada.
-- Interface responsiva, modo escuro persistente e formulários em diálogos nativos.
-- Busca sem acentos por nome, paciente e observações; filtros combinados e ordenação.
-- Controle opcional de estoque, entradas/saídas manuais e alerta visual de reposição.
-- Exportação CSV da lista filtrada, com proteção contra interpretação de fórmulas.
-- Estados de carregamento, lista vazia, erros, confirmação de exclusão e feedback de validação.
-- Testes unitários de frontend, testes de navegador desktop/mobile e testes de estoque no backend.
+## Tecnologias e estrutura
 
-**Estoque é manual:** registrar uso não reduz unidades automaticamente. O sistema não calcula doses.
-
-## Evolução da primeira entrega
-
-| Base recebida | Segunda entrega |
+| Parte | Como é usada |
 | --- | --- |
-| Cadastro, login e CRUD por usuário | Fluxos preservados |
-| Senhas em texto puro | PBKDF2-HMAC-SHA256; migração após login válido de conta antiga |
-| Documentos simples | Histórico com lista de subdocumentos, UUID e data UTC |
-| Sem registro de uso | Botões Registrar uso e Histórico na interface |
-| Horário apenas obrigatório | Validação HH:mm |
-| Índice de email apenas anotado | Script reproduzível de índices |
-| Testes e JaCoCo | Novos testes, CI e limite de 70% sem exclusões de classes |
-| README | Documentação técnica, quadro de tarefas e roteiro de vídeo |
+| Java 17 e Spring Boot | Servem a interface e a API. Os controllers recebem as requisições, os serviços aplicam as regras e os repositórios acessam o banco. |
+| MongoDB 7 | Armazena contas e medicamentos. Cada medicamento é vinculado ao ID da conta e pode conter histórico de uso e informações de estoque. |
+| HTML, CSS e JavaScript | Montam as telas, enviam requisições à API e atualizam o painel conforme as ações do usuário. |
+| Maven e Docker Compose | O Maven gerencia dependências, compilação e testes. O Compose inicia o MongoDB para uso local. |
 
-## Executar
+## O que mudou na segunda entrega
 
-Requisitos: JDK 17, Docker com Compose e acesso à internet para baixar Maven/dependências.
+- A autenticação usa sessões. As senhas são armazenadas como hash PBKDF2-HMAC-SHA256 com salt aleatório. Contas antigas que ainda tinham a senha em texto puro migram após um login válido.
+- O cadastro passou a validar o formato do horário. A entrega acrescentou histórico de uso, controle de estoque e um script que cria o índice único de e-mail e o índice de medicamentos por usuário.
+- A interface ganhou uma identidade voltada à saúde, com azul-petróleo, turquesa e branco, alertas de reposição em âmbar e uma marca com cruz e traçado de pulso. O painel é responsivo, oferece temas claro e escuro e guarda a preferência no navegador.
+- O GitHub Actions executa os testes de backend e frontend em jobs separados e publica os relatórios como artefatos.
+
+## Como executar localmente
+
+Instale o **JDK 17** e o **Docker com Compose**. O Maven Wrapper baixa o Maven e as dependências no primeiro uso, por isso precisa de acesso à internet.
+
+Na raiz do projeto, inicie o banco:
 
 ```bash
 docker compose up -d
-# Após o MongoDB estar saudável, aplicar índices (inclusive em volumes existentes):
+docker compose ps
+```
+
+Quando o MongoDB estiver com o status `healthy`, aplique os índices. O mesmo comando funciona com volumes já existentes.
+
+```bash
 docker compose exec -T mongo mongosh --quiet /docker-entrypoint-initdb.d/mongo-init.js
 ```
 
-Linux/macOS: `bash mvnw spring-boot:run`.
-Windows PowerShell: `.\mvnw.cmd spring-boot:run`.
+Inicie a aplicação pelo comando correspondente ao seu sistema.
 
-Abra http://localhost:8080, cadastre uma conta, entre e cadastre um medicamento.
-Use **Registrar uso** para registrar o momento atual e **Histórico** para consultar os últimos 100 usos.
-Datas são armazenadas em UTC e exibidas no fuso do navegador. Cada clique confirmado representa um novo registro.
+**Windows PowerShell**
 
-Swagger: http://localhost:8080/docs. Contrato: http://localhost:8080/v3/api-docs.
-Para banco externo, configure `SPRING_DATA_MONGODB_URI`; aplique os índices de `scripts/mongo-init.js` nessa base.
-O MongoDB local fica exposto somente em 127.0.0.1 e o volume preserva os dados.
+```powershell
+.\mvnw.cmd spring-boot:run
+```
+
+**Linux ou macOS**
+
+```bash
+bash mvnw spring-boot:run
+```
+
+Abra [http://localhost:8080](http://localhost:8080) e crie uma conta. O MongoDB local fica disponível em `127.0.0.1:27017`, com os dados armazenados em um volume persistente. Para usar uma instância externa, defina `SPRING_DATA_MONGODB_URI` e aplique os índices de `scripts/mongo-init.js` à base usada pela aplicação.
 
 ## Testes e cobertura
 
-```bash
-bash mvnw clean verify
+### Backend
+
+Execute `.\mvnw.cmd clean verify` no PowerShell ou `bash mvnw clean verify` no Linux/macOS. O Maven roda os testes Java e gera o relatório em `target/site/jacoco/index.html`. O JaCoCo exige pelo menos **70% de cobertura de linhas** do código Java de produção.
+
+Para incluir os testes com MongoDB real, mantenha o banco em execução e defina `MONGODB_INTEGRATION=true` antes de rodar o Maven.
+
+```powershell
+$env:MONGODB_INTEGRATION = 'true'
+.\mvnw.cmd clean verify
 ```
 
-Windows: `.\mvnw.cmd clean verify`.
-O comando executa JUnit/Mockito/MockMvc, gera `target/site/jacoco/index.html` e falha abaixo de **70% das linhas**
-do backend Java de produção, sem exclusões de classes. HTML/CSS/JavaScript não são medidos pelo JaCoCo.
-O GitHub Actions executa o mesmo comando e disponibiliza os relatórios como artefato.
-Os testes unitários utilizam mocks; o teste de integração com MongoDB real é habilitado no CI.
-Para executá-lo localmente, consulte `docs/TESTES.md`.
+```bash
+MONGODB_INTEGRATION=true bash mvnw clean verify
+```
 
-**Estado da validação desta alteração:** o Maven foi invocado, mas o ambiente de edição não resolveu
-`repo.maven.apache.org` (`UnknownHostException`). Portanto, compilação, testes e percentual de cobertura
-precisam ser confirmados em ambiente com acesso ao Maven Central. Nenhum percentual antigo é atribuído a esta versão.
+### Frontend
 
-## Testes do frontend
-
-Node.js 22 ou superior:
+Use **Node.js 22 ou superior**. O primeiro comando executa os testes unitários. Os demais instalam e executam os testes de interface com Playwright.
 
 ```bash
 npm test
-# Para testes de interface (requer internet na instalação):
 npm install
 npx playwright install chromium
 npm run test:e2e
 ```
 
-`npm test` executa regras puras sem instalar dependências. Os testes Playwright usam API simulada
-para validar a interface; a integração real com MongoDB é testada pela suíte Java.
-O workflow tem jobs independentes para backend e frontend.
-
-Validação desta versão: **23 testes unitários do frontend aprovados**, com regras de dados e navegação.
-Os **28 cenários de navegador** (14 cenários × desktop/mobile) foram reconhecidos pelo runner,
-mas a execução e a inspeção visual continuam pendentes: Chromium ausente no ambiente.
-A validação Java/MongoDB e a cobertura JaCoCo permanecem pendentes devido ao download Maven bloqueado.
-Os números de cobertura anteriores não comprovam a cobertura completa desta versão.
-
-## Documentação da entrega
-
-- [Arquitetura, dados, API e migração](docs/TECNICA.md)
-- [Plano de testes e evidências](docs/TESTES.md)
-- [Quadro de tarefas](docs/QUADRO_TAREFAS.md)
-- [Roteiro do vídeo de 3 a 5 minutos](docs/ROTEIRO_VIDEO.md)
-- [Checklist e identificação dos integrantes](docs/ENTREGA.md)
-- [Alterações](CHANGELOG.md)
-
-## Versionamento
-
-Este ZIP não contém o histórico Git original. A versão Maven foi identificada como `0.4.0`.
-Copie os arquivos para o repositório existente, revise o diff e publique um commit real.
-Não recrie nem invente commits da primeira entrega. Após `verify` passar, marque a entrega:
-
-```bash
-git add .
-git update-index --chmod=+x mvnw
-git commit -m "feat: evolui MediCare para segunda entrega da AEP"
-git tag -a v0.4.0 -m "Segunda entrega AEP"
-git push origin HEAD
-git push origin v0.4.0
-```
-
-O envio ao GitHub, o link do repositório, a gravação e publicação do vídeo e os dados dos integrantes
-continuam sob responsabilidade da equipe. Consulte o checklist antes de entregar.
+O Playwright testa os fluxos da interface com uma API simulada, em configurações de desktop e celular. Na validação do redesign, os **23 testes unitários do frontend passaram**. Os **28 cenários de navegador** ficaram pendentes porque o ambiente bloqueou a inicialização do Chromium. A compilação Java, os testes com MongoDB e a cobertura desta versão ainda precisam ser confirmados com `clean verify`.
